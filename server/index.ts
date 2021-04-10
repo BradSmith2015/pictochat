@@ -7,11 +7,24 @@ const io = new Server({
     }
 });
 
+io.use((socket, next)=>{
+    const username = socket.handshake.auth.username;
+    if(!username){
+        return next(new Error("invalid username"));
+    }
+    socket.data.username = username;
+    next();
+})
+
 io.on("connection", (socket: Socket) => {
-  console.log("User connected!")
-  socket.on("message", (mes)=>{
-      console.log(mes)
-      socket.broadcast.emit("chatMessage",mes);
+  socket.broadcast.emit("chatStream", {
+      username: socket.data.username
+  })
+  socket.on("message", (message)=>{
+      socket.broadcast.emit("chatStream",{
+      username: socket.data.username,
+      message
+  });
   })
 });
 
