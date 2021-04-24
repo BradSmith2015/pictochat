@@ -1,0 +1,25 @@
+.room-display-container {
+  width: 350px;
+  background-color: lightgray;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  border: 1px darkgray solid;
+  align-items: center;
+  .chat-room-image {
+    background-color: black;
+    height: 50px;
+    width: 50px;
+    display: inline-block;
+  }
+  .chat-room-name {
+    font-size: 18px;
+    padding-right: 20%;
+    padding-left: 5%;
+  }
+  .room-count {
+    border: 1px darkgray solid;
+    padding: 2px 5px;
+    font-size: 12px;
+  }
+}

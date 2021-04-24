@@ -7,6 +7,8 @@ const io = new Server({
     }
 });
 
+console.log("adfdasfsad")
+
 io.use((socket, next)=>{
     const username = socket.handshake.auth.username;
     if(!username){
@@ -17,11 +19,16 @@ io.use((socket, next)=>{
 })
 
 io.on("connection", (socket: Socket) => {
-  socket.broadcast.emit("chatStream", {
+  socket.on("roomConnection", (room)=>{
+    console.log("roomConnection")
+    socket.join(room)
+    socket.to(room).emit("chatStream", {
       username: socket.data.username
+    })
   })
+  
   socket.on("message", (message)=>{
-      socket.broadcast.emit("chatStream",{
+      socket.to("roomA").emit("chatStream",{
       username: socket.data.username,
       message
   });

@@ -1,23 +1,17 @@
 import { io } from "socket.io-client";
 import { InputField } from "./components/InputField";
-import { ChatDisplay } from "./components/ChatMessages/ChatDisplay";
 import "./App.css";
-import { useState } from "react";
-import { UserConnected, ChatMessage } from "./components/ChatMessages/types";
+import React, { useState } from "react";
+import { ChatRoom } from "./components/ChatMessages/ChatRoom";
+import { RoomSelection } from "./components/Rooms/RoomSelection";
 
 const socket = io("http://localhost:8000", { autoConnect: false });
 
 const App: React.FC = () => {
     const [username, setUsername] = useState("");
     const [usernameCreated, setUsernameCreated] = useState(false);
-    //   const [isConnected, setIsConnected] = useState(socket.connected);
-    const [message, setMessage] = useState("");
-    const [chatStream, setChatStream] = useState([] as any);
-
-    socket.on("chatStream", (message: ChatMessage) => {
-        const newChatMessages = [...chatStream, message];
-        setChatStream(newChatMessages);
-    });
+    const [isRoomSelected, setIsRoomSelected] = useState(false);
+    const [room, setRoom] = useState("");
 
     const onUsernameSelected = () => {
         setUsernameCreated(true);
@@ -25,27 +19,13 @@ const App: React.FC = () => {
         socket.connect();
     }
 
-    const chat = (
-        <div>
-            <ChatDisplay chatStream={chatStream} room={"A"}></ChatDisplay>
-            <InputField
-                value={message}
-                handleChange={(e) => {
-                    setMessage(e.target.value);
-                }}
-            ></InputField>
-            <button
-                onClick={(e) => {
-                    e.preventDefault();
-                    socket.emit("message", message);
-                    setChatStream([...chatStream, { username, message }]);
-                    setMessage("");
-                }}
-            >
-                Send
-      </button>
-        </div>
-    );
+    const setUserRoom = (room: string) => {
+        setRoom(room);
+        setIsRoomSelected(true);
+        socket.emit("roomConnection", room);
+    }
+
+
     const userNameCreator = (
         <div>
             <InputField
@@ -64,7 +44,17 @@ const App: React.FC = () => {
       </button>
         </div>
     );
-    const display = usernameCreated ? chat : userNameCreator;
+    let display;
+    if (!usernameCreated && !isRoomSelected) {
+        display = userNameCreator
+    }
+    else if (usernameCreated && !isRoomSelected) {
+        display = (<RoomSelection
+            onRoomSelection={setUserRoom}
+        ></RoomSelection>)
+    } else {
+        display = <ChatRoom socket={socket} username={username}></ChatRoom>
+    }
     return <div className="App">{display}</div>;
 };
 
