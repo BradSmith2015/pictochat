@@ -1,10 +1,10 @@
 import { ChatBoarder } from "./ChatBoarder";
 import { NowEntering } from "./NowEntering";
-import { ChatMessage, UserConnected, isChatMessage } from "./types";
+import { ChatMessage, UserConnected, isChatMessage, ChatDrawing, isChatDrawing } from "./types";
 import "./ChatDisplay.scss";
 
 interface Props {
-    chatStream: [ChatMessage | UserConnected];
+    chatStream: [ChatMessage | UserConnected | ChatDrawing];
     room: string;
 }
 
@@ -14,6 +14,16 @@ export const ChatDisplay: React.FC<Props> = ({ chatStream, room }) => {
             {chatStream.map((chat, idx) => {
                 if (isChatMessage(chat)) {
                     return <ChatBoarder key={idx} borderColor="#432">{chat.username}: {chat.message}</ChatBoarder>;
+                } else if (isChatDrawing(chat)) {
+                    return (
+                        <ChatBoarder
+                            key={idx} borderColor="#432"
+                            height="250px"
+                            width="330px"
+                        >
+                            <img alt="user drawing" src={chat.drawing}></img>
+                        </ChatBoarder>
+                    );
                 } else {
                     return (
                         <NowEntering

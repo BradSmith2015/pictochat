@@ -31,6 +31,14 @@ io.on("connection", (socket: Socket) => {
       message
   });
   })
+
+  socket.on("drawing", (drawing, room) => {
+      socket.to(room).emit("chatStream", {
+            username: socket.data.username,
+            drawing
+
+      })
+  })
 });
 
 io.listen(8000);

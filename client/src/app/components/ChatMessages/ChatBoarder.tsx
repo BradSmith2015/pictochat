@@ -1,12 +1,16 @@
 import "./ChatBoarder.scss"
 
 interface Props {
-    borderColor: string
+    borderColor: string,
+    height?: string,
+    width?: string
 }
 
-export const ChatBoarder: React.FC<Props> = ({ borderColor, children }) => {
+export const ChatBoarder: React.FC<Props> = ({ borderColor, height, width, children }) => {
     const style: React.CSSProperties = {
-        borderColor
+        borderColor,
+        height,
+        width
     }
     return (
         <div className="chat-boarder-container"

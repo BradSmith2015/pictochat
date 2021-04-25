@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Socket } from "socket.io-client";
+import { DrawingCanvas } from "../Drawing/DrawingCanvas";
 import { ChatDisplay } from "./ChatDisplay";
 import { ChatInput } from "./ChatInput";
 import { ChatMessage, UserConnected } from "./types";
@@ -20,11 +21,18 @@ export const ChatRoom: React.FC<Props> = ({ socket, username, room }) => {
     const [message, setMessage] = useState("");
     const [chatStream, setChatStream] = useState([] as any);
 
+    const handleSendCanvas = (dataUrl: any) => {
+        socket.emit("drawing", dataUrl, room)
+    }
+
+
 
     return (
         <div>
             <ChatDisplay chatStream={chatStream} room={"A"}></ChatDisplay>
-            <ChatInput
+            <DrawingCanvas handleSendCanvas={handleSendCanvas}>
+            </DrawingCanvas>
+            {/* <ChatInput
                 value={message}
                 handleChange={(e) => {
                     setMessage(e.target.value);
@@ -39,6 +47,6 @@ export const ChatRoom: React.FC<Props> = ({ socket, username, room }) => {
                 }}
             >
                 Send
-      </button>
+      </button> */}
         </div>)
 }
