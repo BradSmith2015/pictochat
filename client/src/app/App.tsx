@@ -53,7 +53,7 @@ const App: React.FC = () => {
             onRoomSelection={setUserRoom}
         ></RoomSelection>)
     } else {
-        display = <ChatRoom socket={socket} username={username}></ChatRoom>
+        display = <ChatRoom socket={socket} username={username} room={room}></ChatRoom>
     }
     return <div className="App">{display}</div>;
 };

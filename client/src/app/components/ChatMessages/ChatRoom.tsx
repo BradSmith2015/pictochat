@@ -6,11 +6,12 @@ import { ChatMessage, UserConnected } from "./types";
 
 interface Props {
     socket: Socket,
-    username: string
+    username: string,
+    room: string
 }
 
 
-export const ChatRoom: React.FC<Props> = ({ socket, username }) => {
+export const ChatRoom: React.FC<Props> = ({ socket, username, room }) => {
     socket.on("chatStream", (message: ChatMessage) => {
         const newChatMessages = [...chatStream, message];
         setChatStream(newChatMessages);
@@ -32,7 +33,7 @@ export const ChatRoom: React.FC<Props> = ({ socket, username }) => {
             <button
                 onClick={(e) => {
                     e.preventDefault();
-                    socket.emit("message", message);
+                    socket.emit("message", message, room);
                     setChatStream([...chatStream, { username, message }]);
                     setMessage("");
                 }}
