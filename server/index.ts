@@ -32,11 +32,11 @@ io.on("connection", (socket: Socket) => {
   });
   })
 
-  socket.on("drawing", (drawing, room) => {
+  socket.on("drawingAndText", (drawing, message, room) => {
       socket.to(room).emit("chatStream", {
             username: socket.data.username,
-            drawing
-
+            drawing,
+            message
       })
   })
 });

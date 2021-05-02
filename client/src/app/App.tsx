@@ -4,7 +4,6 @@ import "./App.css";
 import React, { useState } from "react";
 import { ChatRoom } from "./components/ChatMessages/ChatRoom";
 import { RoomSelection } from "./components/Rooms/RoomSelection";
-import { DrawingCanvas } from "./components/Drawing/DrawingCanvas";
 
 const socket = io("http://localhost:8000", { autoConnect: false });
 

@@ -12,9 +12,7 @@ export const ChatDisplay: React.FC<Props> = ({ chatStream, room }) => {
     return (
         <div className="chatDisplay">
             {chatStream.map((chat, idx) => {
-                if (isChatMessage(chat)) {
-                    return <ChatBoarder key={idx} borderColor="#432">{chat.username}: {chat.message}</ChatBoarder>;
-                } else if (isChatDrawing(chat)) {
+                if (isChatDrawing(chat)) {
                     return (
                         <ChatBoarder
                             key={idx} borderColor="#432"
@@ -24,6 +22,9 @@ export const ChatDisplay: React.FC<Props> = ({ chatStream, room }) => {
                             <img alt="user drawing" src={chat.drawing}></img>
                         </ChatBoarder>
                     );
+                }
+                else if (isChatMessage(chat)) {
+                    return <ChatBoarder key={idx} borderColor="#432">{chat.username}: {chat.message}</ChatBoarder>;
                 } else {
                     return (
                         <NowEntering

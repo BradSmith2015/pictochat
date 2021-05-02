@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Socket } from "socket.io-client";
-import { DrawingCanvas } from "../Drawing/DrawingCanvas";
 import { ChatDisplay } from "./ChatDisplay";
 import { ChatInput } from "./ChatInput";
 import { ChatMessage, UserConnected } from "./types";
@@ -18,35 +17,22 @@ export const ChatRoom: React.FC<Props> = ({ socket, username, room }) => {
         setChatStream(newChatMessages);
     });
 
-    const [message, setMessage] = useState("");
     const [chatStream, setChatStream] = useState([] as any);
 
-    const handleSendCanvas = (dataUrl: any) => {
-        socket.emit("drawing", dataUrl, room)
+    const handleSendDrawingAndText = (dataUrl: any, message: string) => {
+        socket.emit("drawingAndText", dataUrl, message, room)
+        setChatStream([...chatStream, { drawing: dataUrl, message, username }])
     }
 
+    const handleSendText = (message: string) => {
+        socket.emit("message", message, room);
+        setChatStream([...chatStream, { message, username }])
 
-
+    }
     return (
         <div>
             <ChatDisplay chatStream={chatStream} room={"A"}></ChatDisplay>
-            <DrawingCanvas handleSendCanvas={handleSendCanvas}>
-            </DrawingCanvas>
-            {/* <ChatInput
-                value={message}
-                handleChange={(e) => {
-                    setMessage(e.target.value);
-                }}
-            ></ChatInput>
-            <button
-                onClick={(e) => {
-                    e.preventDefault();
-                    socket.emit("message", message, room);
-                    setChatStream([...chatStream, { username, message }]);
-                    setMessage("");
-                }}
-            >
-                Send
-      </button> */}
+            <ChatInput handleSendDrawingAndText={handleSendDrawingAndText} handleSendMessageText={handleSendText}>
+            </ChatInput>
         </div>)
 }
