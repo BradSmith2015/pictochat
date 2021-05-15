@@ -2,6 +2,7 @@ import { ChatBoarder } from "./ChatBoarder";
 import { NowEntering } from "./NowEntering";
 import { ChatMessage, UserConnected, isChatMessage, ChatDrawing, isChatDrawing } from "./types";
 import "./ChatDisplay.scss";
+import { ChatDrawingDisplay } from "./ChatDrawingDisplay";
 
 interface Props {
     chatStream: [ChatMessage | UserConnected | ChatDrawing];
@@ -16,10 +17,13 @@ export const ChatDisplay: React.FC<Props> = ({ chatStream, room }) => {
                     return (
                         <ChatBoarder
                             key={idx} borderColor="#432"
-                            height="250px"
-                            width="330px"
+                            height="200px"
+                            width="300px"
                         >
-                            <img alt="user drawing" src={chat.drawing}></img>
+                            <ChatDrawingDisplay
+                                drawing={chat.drawing}
+                                text={chat.message}
+                            ></ChatDrawingDisplay>
                         </ChatBoarder>
                     );
                 }

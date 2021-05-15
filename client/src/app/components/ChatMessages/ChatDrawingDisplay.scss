@@ -1,0 +1,13 @@
+.chat-drawing-container {
+  position: relative;
+  .chat-drawing-image-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .chat-drawing-text-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}

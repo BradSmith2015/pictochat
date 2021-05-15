@@ -7,7 +7,8 @@ export interface ChatMessage {
 
 export interface ChatDrawing {
     username: string,
-    drawing : string
+    drawing : string,
+    message: string
 }
 
 

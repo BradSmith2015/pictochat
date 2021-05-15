@@ -1,0 +1,24 @@
+.chat-input-display-container {
+  position: relative;
+  height: 200px;
+  width: 300px;
+  margin: auto;
+  .chat-input-canvas {
+    position: absolute;
+    top: 0;
+    z-index: 1;
+  }
+  .chat-input-text {
+    position: absolute;
+    top: 0;
+    height: 200px;
+    width: 300px;
+    z-index: -1;
+    resize: none;
+    .chat-input-textarea {
+      height: 200px;
+      width: 300px;
+      resize: none;
+    }
+  }
+}
